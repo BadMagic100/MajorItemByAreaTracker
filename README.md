@@ -10,7 +10,7 @@ are included. The goal of the format is to collect all the required items and de
 
 ## Mod Settings
 
-In the mod menu, you can control when the UI is visible - always, while the game is paused, or never.
+In the mod menu, you can control when the UI is visible - always, while the game is paused, or never. If the connection is not enabled for a given seed, the UI will not be created and the initial counter log will not be generated, regardless of this setting.
 
 ## Connection Settings
 
