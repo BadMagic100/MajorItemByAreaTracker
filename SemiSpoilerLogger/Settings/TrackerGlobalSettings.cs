@@ -13,6 +13,7 @@ namespace MajorItemByAreaTracker.Settings
         public bool IncludeCharmNotches { get; set; } = false;
 
         [MenuIgnore]
+        [HashModifier.HashIgnore]
         public UIDisplayType ShowUI { get; set; } = UIDisplayType.Always;
 
         public TrackerSettings ToTrackerSettings()

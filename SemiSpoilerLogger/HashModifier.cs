@@ -1,6 +1,4 @@
-﻿using MajorItemByAreaTracker.UI;
-using MenuChanger.Extensions;
-using MonoMod.RuntimeDetour;
+﻿using MonoMod.RuntimeDetour;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RandomizerMod.RC;
@@ -22,6 +20,9 @@ namespace MajorItemByAreaTracker
             hook = new Hook(randoControllerHash, AdjustHash);
         }
 
+        [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
+        internal class HashIgnoreAttribute : Attribute { };
+
         private class IgnoreUIContractResolver : DefaultContractResolver
         {
             public static IgnoreUIContractResolver Instance { get; } = new();
@@ -29,7 +30,7 @@ namespace MajorItemByAreaTracker
             protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
             {
                 JsonProperty property = base.CreateProperty(member, memberSerialization);
-                if (member.GetValueType() == typeof(UIDisplayType))
+                if (member.GetCustomAttribute(typeof(HashIgnoreAttribute)) != null)
                 {
                     property.Ignored = true;
                 }
@@ -45,7 +46,7 @@ namespace MajorItemByAreaTracker
                 using SHA256Managed sha256 = new();
                 using StringWriter sw = new();
                 JsonSerializer ser = new()
-                { 
+                {
                     DefaultValueHandling = DefaultValueHandling.Include,
                     Formatting = Formatting.None,
                     TypeNameHandling = TypeNameHandling.Auto,
@@ -57,7 +58,10 @@ namespace MajorItemByAreaTracker
                 byte[] sha = sha256.ComputeHash(Encoding.UTF8.GetBytes(sw.ToString()));
 
                 int seed = 17;
-                for (int i = 0; i < sha.Length; i++) seed = 31 * seed ^ sha[i];
+                for (int i = 0; i < sha.Length; i++)
+                {
+                    seed = 31 * seed ^ sha[i];
+                }
 
                 result += seed;
             }
