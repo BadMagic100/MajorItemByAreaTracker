@@ -21,7 +21,7 @@ using HKSpoilerViewer. To play with default settings, you only need to enable th
 
 ## Custom Item Support
 
-Connections may integrate with this mod using [ConnectionMetadataInjector tags](https://github.com/BadMagic100/ConnectionMetadataInjector#tag-spec).
+This section details how modders can integrate their custom items with this mod, if desired. If you're not a modder, you can skip this section. Connections may integrate with this mod using [ConnectionMetadataInjector tags](https://github.com/BadMagic100/ConnectionMetadataInjector#tag-spec).
 This mod requests the following properties:
 
 | Property | Type | Parent Object | Description | Default Handling |
