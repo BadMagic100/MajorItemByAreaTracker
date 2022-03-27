@@ -19,7 +19,7 @@ namespace MajorItemByAreaTracker
 
         public static void Hook()
         {
-            hook = new Hook(randoControllerHash, typeof(HashModifier).GetMethod(nameof(AdjustHash), BindingFlags.NonPublic | BindingFlags.Static));
+            hook = new Hook(randoControllerHash, AdjustHash);
         }
 
         private class IgnoreUIContractResolver : DefaultContractResolver
