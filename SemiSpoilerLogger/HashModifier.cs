@@ -23,9 +23,11 @@ namespace MajorItemByAreaTracker
         [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
         internal class HashIgnoreAttribute : Attribute { };
 
-        private class IgnoreUIContractResolver : DefaultContractResolver
+        private class HashIgnoreContractResolver : DefaultContractResolver
         {
-            public static IgnoreUIContractResolver Instance { get; } = new();
+            public static HashIgnoreContractResolver Instance { get; } = new();
+
+            private HashIgnoreContractResolver() : base() { }
 
             protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
             {
@@ -50,7 +52,7 @@ namespace MajorItemByAreaTracker
                     DefaultValueHandling = DefaultValueHandling.Include,
                     Formatting = Formatting.None,
                     TypeNameHandling = TypeNameHandling.Auto,
-                    ContractResolver = IgnoreUIContractResolver.Instance,
+                    ContractResolver = HashIgnoreContractResolver.Instance,
                 };
                 ser.Serialize(sw, MajorItemByAreaTracker.Instance.GS);
 
