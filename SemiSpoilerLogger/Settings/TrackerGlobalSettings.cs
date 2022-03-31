@@ -12,6 +12,9 @@ namespace MajorItemByAreaTracker.Settings
 
         public bool IncludeCharmNotches { get; set; } = false;
 
+        [MenuLabel("Include Key-like Charms")]
+        public bool IncludeKeyLikeCharms { get; set; } = false;
+
         [MenuIgnore]
         [HashModifier.HashIgnore]
         public UIDisplayType ShowUI { get; set; } = UIDisplayType.Always;
@@ -20,9 +23,9 @@ namespace MajorItemByAreaTracker.Settings
         {
             return new()
             {
-                Enabled = Enabled,
-                IncludeCharmNotches = Enabled && IncludeCharmNotches,
-                IncludeUniqueKeys = Enabled && IncludeUniqueKeys
+                IncludeCharmNotches = IncludeCharmNotches,
+                IncludeUniqueKeys = IncludeUniqueKeys,
+                IncludeKeyLikeCharms = IncludeKeyLikeCharms,
             };
         }
     }

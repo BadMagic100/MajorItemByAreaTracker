@@ -2,20 +2,18 @@
 using MajorItemByAreaTracker.Settings;
 using MajorItemByAreaTracker.UI;
 using Modding;
-using RandomizerMod.IC;
+using RandomizerMod.RC;
 using Satchel.BetterMenus;
 using System;
 
 namespace MajorItemByAreaTracker
 {
-    public class MajorItemByAreaTracker : Mod, IGlobalSettings<TrackerGlobalSettings>, ILocalSettings<TrackerSettings>, ICustomMenuMod
+    public class MajorItemByAreaTracker : Mod, IGlobalSettings<TrackerGlobalSettings>, ICustomMenuMod
     {
         internal static MajorItemByAreaTracker Instance;
 
         internal TrackerGlobalSettings GS = new();
-        internal TrackerSettings LS = new();
 
-        private TrackerUI ui;
         private Menu? menuRef;
 
         public bool ToggleButtonInsideMenu => throw new NotImplementedException();
@@ -25,69 +23,37 @@ namespace MajorItemByAreaTracker
         public MajorItemByAreaTracker() : base()
         {
             Instance = this;
-            ui = new();
         }
 
         public override void Initialize()
         {
             Log("Initializing");
 
-            Events.AfterStartNewGame += OnSaveCreated;
-            RandoItemTag.AfterRandoItemGive += OnItemGive;
-
-            On.HeroController.Awake += OnGameStart;
-            On.GameCompletionScreen.Start += OnCompletion;
-            On.QuitToMenu.Start += OnQuitGame;
+            RandoController.OnExportCompleted += OnRandoGameStart;
+            RandoController.OnCalculateHash += HashModifier.AdjustHash;
 
             MenuHolder.Hook();
-            HashModifier.Hook();
 
             Log("Initialized");
         }
 
-        private void OnGameStart(On.HeroController.orig_Awake orig, HeroController self)
+        private void OnRandoGameStart(RandoController rc)
         {
-            orig(self);
-            ui.StartGame();
-        }
+            if (!GS.Enabled)
+            {
+                return;
+            }
 
-        private void OnCompletion(On.GameCompletionScreen.orig_Start orig, GameCompletionScreen self)
-        {
-            ui.EndGame();
-            orig(self);
-        }
-
-        private System.Collections.IEnumerator OnQuitGame(On.QuitToMenu.orig_Start orig, QuitToMenu self)
-        {
-            ui.EndGame();
-            return orig(self);
-        }
-
-        private void OnItemGive(int idx, ReadOnlyGiveEventArgs obj)
-        {
-            LS.DecrementItemCount(obj.Orig);
-            ui.Refresh();
-        }
-
-        private void OnSaveCreated()
-        {
-            LS = GS.ToTrackerSettings();
-            LS.InitCounts();
-            MajorItemByAreaLogger.Log();
-            ui.Refresh();
+            if (ItemChangerMod.Modules.Get<MajorItemTrackerModule>() == null)
+            {
+                MajorItemTrackerModule tracker = ItemChangerMod.Modules.GetOrAdd<MajorItemTrackerModule>();
+                tracker.PrepareFirstTimeConfig();
+            }
         }
 
         public void OnLoadGlobal(TrackerGlobalSettings s) => GS = s;
 
-        public void OnLoadLocal(TrackerSettings s)
-        {
-            LS = s;
-            ui.Refresh();
-        }
-
         public TrackerGlobalSettings OnSaveGlobal() => GS;
-
-        public TrackerSettings OnSaveLocal() => LS;
 
         public MenuScreen GetMenuScreen(MenuScreen modListMenu, ModToggleDelegates? toggleDelegates)
         {

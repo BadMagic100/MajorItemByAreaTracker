@@ -1,6 +1,7 @@
 ﻿using ConnectionMetadataInjector.Util;
 using MagicUI.Core;
 using MagicUI.Elements;
+using MajorItemByAreaTracker.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
@@ -13,15 +14,15 @@ namespace MajorItemByAreaTracker.UI
         Always, Paused, None
     }
 
-    public class TrackerUI
+    internal class TrackerUI
     {
         private LayoutRoot layout;
-        private bool isInGame = false;
         private Dictionary<string, AreaCounterContainer> counterLookup = new();
+        private TrackerSettings model;
 
         private bool IsVisible()
         {
-            return isInGame && MajorItemByAreaTracker.Instance.LS.Enabled && MajorItemByAreaTracker.Instance.GS.ShowUI switch
+            return MajorItemByAreaTracker.Instance.GS.ShowUI switch
             {
                 UIDisplayType.Always => true,
                 UIDisplayType.Paused => GameManager.instance.IsGamePaused(),
@@ -29,8 +30,10 @@ namespace MajorItemByAreaTracker.UI
             };
         }
 
-        public TrackerUI()
+        public TrackerUI(TrackerSettings model)
         {
+            this.model = model;
+
             layout = new(true, "Major Item Tracker");
             layout.VisibilityCondition = IsVisible;
 
@@ -67,26 +70,33 @@ namespace MajorItemByAreaTracker.UI
             }
         }
 
-        public void StartGame()
-        {
-            isInGame = true;
-        }
-
-        public void EndGame()
-        {
-            isInGame = false;
-        }
-
         public void Refresh()
         {
+            int sum = 0;
             foreach (string area in MapArea.AllMapAreas)
             {
                 if (counterLookup.TryGetValue(area, out AreaCounterContainer counter)
-                    && MajorItemByAreaTracker.Instance.LS.ItemByAreaCounter.TryGetValue(area, out int count))
+                    && model.ItemByAreaCounter.TryGetValue(area, out int count) == true)
                 {
                     counter.Count = count;
+                    sum += count;
                 }
             }
+            SetLabelText(sum);
+        }
+
+        private void SetLabelText(int total)
+        {
+            TextObject? label = layout?.GetElement<TextObject>("Area Tracker Label");
+            if (label != null)
+            {
+                label.Text = $"Major Items Remaining ({total})";
+            }
+        }
+
+        public void Destroy()
+        {
+            layout.Destroy();
         }
     }
 }

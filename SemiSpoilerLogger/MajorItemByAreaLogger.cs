@@ -9,16 +9,9 @@ namespace MajorItemByAreaTracker
 {
     internal static class MajorItemByAreaLogger
     {
-        public static void Log()
+        public static void Log(TrackerSettings settings)
         {
-            if (!MajorItemByAreaTracker.Instance.LS.Enabled)
-            {
-                return;
-            }
-
             StringBuilder sb = new();
-
-            TrackerSettings settings = MajorItemByAreaTracker.Instance.LS;
 
             sb.AppendLine("----- Item Counts By Map Area -----");
             foreach (string area in MapArea.AllMapAreas)
