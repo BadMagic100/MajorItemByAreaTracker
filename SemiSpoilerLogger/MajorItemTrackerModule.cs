@@ -64,6 +64,7 @@ namespace MajorItemByAreaTracker
 
         private void OnGoToCompletionScreen(On.GameCompletionScreen.orig_Start orig, GameCompletionScreen self)
         {
+            orig(self);
             ui?.Destroy();
             ui = null;
         }
