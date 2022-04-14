@@ -42,7 +42,7 @@ namespace MajorItemByAreaTracker
         {
             trackerPage = new MenuPage(Localization.Localize("All Major Items"), landing);
             mef = new MenuElementFactory<TrackerGlobalSettings>(trackerPage, MajorItemByAreaTracker.Instance.GS);
-            vip = new VerticalItemPanel(trackerPage, new(0, 300), 50f, false, mef.Elements);
+            vip = new VerticalItemPanel(trackerPage, new(0, 300), 50f, true, mef.Elements);
             Localization.Localize(mef);
         }
     }

@@ -10,7 +10,18 @@ namespace MajorItemByAreaTracker
 {
     public class MajorItemByAreaTracker : Mod, IGlobalSettings<TrackerGlobalSettings>, ICustomMenuMod
     {
-        internal static MajorItemByAreaTracker Instance;
+        private static MajorItemByAreaTracker? _instance;
+        internal static MajorItemByAreaTracker Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    throw new InvalidOperationException($"{nameof(MajorItemByAreaTracker)} was never initialized");
+                }
+                return _instance;
+            }
+        }
 
         internal TrackerGlobalSettings GS = new();
 
@@ -22,7 +33,7 @@ namespace MajorItemByAreaTracker
 
         public MajorItemByAreaTracker() : base()
         {
-            Instance = this;
+            _instance = this;
         }
 
         public override void Initialize()
