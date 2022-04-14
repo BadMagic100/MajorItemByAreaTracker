@@ -43,7 +43,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.should_release == 'true'
         with:
           name: Publish
-          path: SemiSpoilerLogger/bin/Publish/MajorItemsByAreaTracker
+          path: SemiSpoilerLogger/bin/Publish/MajorItemByAreaTracker
   release:
     needs:
       - build
@@ -74,4 +74,4 @@ jobs:
           body: |
             SHA256: ${{ steps.details.outputs.archiveHash }}
           files: |
-            artifacts/Publish/MajorItemsByAreaTracker.zip
+            artifacts/Publish/MajorItemByAreaTracker.zip
