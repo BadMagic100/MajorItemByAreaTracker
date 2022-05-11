@@ -1,4 +1,4 @@
-﻿MagicUI
+﻿MagicUI from https://github.com/BadMagic100/HollowKnight.MagicUI/releases/download/v1.3.8166.1420/MagicUI.zip
 ConnectionMetadataInjector
 Randomizer 4
 RandomizerCore
