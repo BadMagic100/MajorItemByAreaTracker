@@ -4,6 +4,7 @@ using MagicUI.Elements;
 using MajorItemByAreaTracker.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using RandomizerMod;
 using System.Collections.Generic;
 
 namespace MajorItemByAreaTracker.UI
@@ -17,8 +18,21 @@ namespace MajorItemByAreaTracker.UI
     internal class TrackerUI
     {
         private LayoutRoot layout;
-        private Dictionary<string, AreaCounterContainer> counterLookup = new();
+        private Dictionary<string, TextFormatter<int>> counterLookup = new();
         private TrackerSettings model;
+
+        private string TryLocalize(string area)
+        {
+            area = area == MapArea.FORGOTTEN_CROSSROADS ? "Crossroads" : area;
+            try
+            {
+                return Localization.Localize(area);
+            }
+            catch
+            {
+                return area;
+            }
+        }
 
         private bool IsVisible()
         {
@@ -64,7 +78,15 @@ namespace MajorItemByAreaTracker.UI
 
             foreach (string area in MapArea.AllMapAreas)
             {
-                AreaCounterContainer counter = new(layout, area);
+                TextObject internalText = new(layout)
+                {
+                    FontSize = 15
+                };
+                TextFormatter<int> counter = new(layout, 0, (i) => $"{TryLocalize(area)}: {i}")
+                {
+                    Text = internalText,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                };
                 counterLookup[area] = counter;
                 grid.Children.Add(counter);
             }
@@ -75,10 +97,10 @@ namespace MajorItemByAreaTracker.UI
             int sum = 0;
             foreach (string area in MapArea.AllMapAreas)
             {
-                if (counterLookup.TryGetValue(area, out AreaCounterContainer counter)
+                if (counterLookup.TryGetValue(area, out TextFormatter<int> counter)
                     && model.ItemByAreaCounter.TryGetValue(area, out int count) == true)
                 {
-                    counter.Count = count;
+                    counter.Data = count;
                     sum += count;
                 }
             }
