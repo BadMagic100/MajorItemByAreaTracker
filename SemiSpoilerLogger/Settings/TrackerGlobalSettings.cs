@@ -10,7 +10,7 @@ namespace MajorItemByAreaTracker.Settings
 
         public bool IncludeUniqueKeys { get; set; } = false;
 
-        public bool IncludeCharmNotches { get; set; } = false;
+        public bool IncludeSimpleKeys { get; set; } = false;
 
         [MenuLabel("Include Key-like Charms")]
         public bool IncludeKeyLikeCharms { get; set; } = false;
@@ -23,8 +23,8 @@ namespace MajorItemByAreaTracker.Settings
         {
             return new()
             {
-                IncludeCharmNotches = IncludeCharmNotches,
                 IncludeUniqueKeys = IncludeUniqueKeys,
+                IncludeSimpleKeys = IncludeSimpleKeys,
                 IncludeKeyLikeCharms = IncludeKeyLikeCharms,
             };
         }

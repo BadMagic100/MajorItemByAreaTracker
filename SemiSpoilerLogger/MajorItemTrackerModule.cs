@@ -84,13 +84,12 @@ namespace MajorItemByAreaTracker
         private bool IsUniqueKey(string poolGroup, string itemName) => poolGroup == PoolGroup.Keys.FriendlyName()
             && !itemName.IsOneOf(ItemNames.Simple_Key, ItemNames.Collectors_Map, ItemNames.Godtuner);
 
+        private bool IsSimpleKey(string poolGroup, string itemName) => itemName == ItemNames.Simple_Key;
+
         private bool IsDreamer(string poolGroup, string itemName) => poolGroup == PoolGroup.Dreamers.FriendlyName() && itemName != ItemNames.World_Sense;
 
         private bool IsWhiteFragment(string poolGroup, string itemName) => poolGroup == PoolGroup.Charms.FriendlyName()
             && itemName.IsOneOf(ItemNames.Queen_Fragment, ItemNames.King_Fragment, ItemNames.Void_Heart);
-
-        private bool IsCharmNotch(string poolGroup, string itemName) => poolGroup == PoolGroup.CharmNotches.FriendlyName() 
-            && itemName != ItemNames.Salubras_Blessing;
 
         private bool IsKeyLikeCharm(string poolGroup, string itemName) => itemName.IsOneOf(ItemNames.Defenders_Crest, ItemNames.Spore_Shroom,
             ItemNames.Grimmchild1, ItemNames.Grimmchild2);
@@ -110,7 +109,7 @@ namespace MajorItemByAreaTracker
                 || IsDreamer(poolGroup, itemName)
                 || IsWhiteFragment(poolGroup, itemName)
                 || (Config.IncludeUniqueKeys && IsUniqueKey(poolGroup, itemName))
-                || (Config.IncludeCharmNotches && IsCharmNotch(poolGroup, itemName))
+                || (Config.IncludeSimpleKeys && IsSimpleKey(poolGroup, itemName))
                 || (Config.IncludeKeyLikeCharms && IsKeyLikeCharm(poolGroup, itemName));
         }
 

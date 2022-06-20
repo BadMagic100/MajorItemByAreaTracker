@@ -78,13 +78,12 @@ namespace MajorItemByAreaTracker.UI
 
             foreach (string area in MapArea.AllMapAreas)
             {
-                TextObject internalText = new(layout)
-                {
-                    FontSize = 15
-                };
                 TextFormatter<int> counter = new(layout, 0, (i) => $"{TryLocalize(area)}: {i}")
                 {
-                    Text = internalText,
+                    Text = new(layout)
+                    {
+                        FontSize = 15
+                    },
                     HorizontalAlignment = HorizontalAlignment.Center,
                 };
                 counterLookup[area] = counter;
@@ -98,7 +97,7 @@ namespace MajorItemByAreaTracker.UI
             foreach (string area in MapArea.AllMapAreas)
             {
                 if (counterLookup.TryGetValue(area, out TextFormatter<int> counter)
-                    && model.ItemByAreaCounter.TryGetValue(area, out int count) == true)
+                    && model.ItemByAreaCounter.TryGetValue(area, out int count))
                 {
                     counter.Data = count;
                     sum += count;
