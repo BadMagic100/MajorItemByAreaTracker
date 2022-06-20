@@ -94,6 +94,8 @@ namespace MajorItemByAreaTracker
         private bool IsKeyLikeCharm(string poolGroup, string itemName) => itemName.IsOneOf(ItemNames.Defenders_Crest, ItemNames.Spore_Shroom,
             ItemNames.Grimmchild1, ItemNames.Grimmchild2);
 
+        private bool IsStag(string poolGroup, string itemName) => poolGroup.Equals(PoolGroup.Stags.FriendlyName());
+
         private bool GetIsMajorItemDefault(AbstractItem item)
         {
             // only rando items are allowed
@@ -110,7 +112,8 @@ namespace MajorItemByAreaTracker
                 || IsWhiteFragment(poolGroup, itemName)
                 || (Config.IncludeUniqueKeys && IsUniqueKey(poolGroup, itemName))
                 || (Config.IncludeSimpleKeys && IsSimpleKey(poolGroup, itemName))
-                || (Config.IncludeKeyLikeCharms && IsKeyLikeCharm(poolGroup, itemName));
+                || (Config.IncludeKeyLikeCharms && IsKeyLikeCharm(poolGroup, itemName))
+                || (Config.IncludeStags && IsStag(poolGroup, itemName));
         }
 
         private static string ResolveItemName(AbstractItem item) => item.RandoItem()!.Name
@@ -124,6 +127,7 @@ namespace MajorItemByAreaTracker
             .Merge(ItemNames.Dreamer, ItemNames.Lurien, ItemNames.Monomon, ItemNames.Herrah)
             .Merge("White Fragment", ItemNames.King_Fragment, ItemNames.Queen_Fragment, ItemNames.Void_Heart)
             .Merge("Nail Art", ItemNames.Great_Slash, ItemNames.Dash_Slash, ItemNames.Cyclone_Slash)
+            .Merge("Grimmchild", ItemNames.Grimmchild1, ItemNames.Grimmchild2)
             .Replace('_', ' ');
 
         private bool IsEligible(AbstractItem item) => item.HasTag<RandoItemTag>() && SupplementalMetadata.Of(item).Get(IsMajorItem);

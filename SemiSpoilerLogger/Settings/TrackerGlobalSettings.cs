@@ -15,6 +15,8 @@ namespace MajorItemByAreaTracker.Settings
         [MenuLabel("Include Key-like Charms")]
         public bool IncludeKeyLikeCharms { get; set; } = false;
 
+        public bool IncludeStags { get; set; } = false;
+
         [MenuIgnore]
         [HashModifier.HashIgnore]
         public UIDisplayType ShowUI { get; set; } = UIDisplayType.Always;
@@ -26,6 +28,7 @@ namespace MajorItemByAreaTracker.Settings
                 IncludeUniqueKeys = IncludeUniqueKeys,
                 IncludeSimpleKeys = IncludeSimpleKeys,
                 IncludeKeyLikeCharms = IncludeKeyLikeCharms,
+                IncludeStags = IncludeStags,
             };
         }
     }
