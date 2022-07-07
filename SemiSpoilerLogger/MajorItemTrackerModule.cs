@@ -6,6 +6,7 @@ using ItemChanger.Modules;
 using MajorItemByAreaTracker.Settings;
 using MajorItemByAreaTracker.UI;
 using Newtonsoft.Json;
+using RandomizerMod.Extensions;
 using RandomizerMod.IC;
 using CMI = ConnectionMetadataInjector.ConnectionMetadataInjector;
 
