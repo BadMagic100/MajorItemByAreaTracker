@@ -10,6 +10,8 @@ namespace MajorItemByAreaTracker.Settings
 
         public bool IncludeKeyLikeCharms { get; set; } = false;
 
+        public bool IncludeFragileCharms { get; set; } = false;
+
         public bool IncludeStags { get; set; } = false;
 
         public Dictionary<string, int> ItemByNameCounter { get; set; } = new();

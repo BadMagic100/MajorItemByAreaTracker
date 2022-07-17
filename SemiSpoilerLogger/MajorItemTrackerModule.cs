@@ -8,7 +8,6 @@ using MajorItemByAreaTracker.UI;
 using Newtonsoft.Json;
 using RandomizerMod.Extensions;
 using RandomizerMod.IC;
-using CMI = ConnectionMetadataInjector.ConnectionMetadataInjector;
 
 namespace MajorItemByAreaTracker
 {
@@ -95,6 +94,10 @@ namespace MajorItemByAreaTracker
         private bool IsKeyLikeCharm(string poolGroup, string itemName) => itemName.IsOneOf(ItemNames.Defenders_Crest, ItemNames.Spore_Shroom,
             ItemNames.Grimmchild1, ItemNames.Grimmchild2);
 
+        private bool IsFragileCharm(string poolGroup, string itemName) => itemName.IsOneOf(
+            ItemNames.Fragile_Heart, ItemNames.Fragile_Strength, ItemNames.Fragile_Greed,
+            ItemNames.Unbreakable_Heart, ItemNames.Unbreakable_Strength, ItemNames.Unbreakable_Greed);
+
         private bool IsStag(string poolGroup, string itemName) => poolGroup.Equals(PoolGroup.Stags.FriendlyName());
 
         private bool GetIsMajorItemDefault(AbstractItem item)
@@ -107,12 +110,13 @@ namespace MajorItemByAreaTracker
 
             string itemName = item.RandoItem()!.Name;
             SupplementalMetadata<AbstractItem> itemMeta = SupplementalMetadata.Of(item);
-            string poolGroup = itemMeta.Get(CMI.ItemPoolGroup);
+            string poolGroup = itemMeta.Get(InjectedProps.ItemPoolGroup);
             return IsSkill(poolGroup, itemName)
                 || IsDreamer(poolGroup, itemName)
                 || IsWhiteFragment(poolGroup, itemName)
                 || (Config.IncludeUniqueKeys && IsUniqueKey(poolGroup, itemName))
                 || (Config.IncludeSimpleKeys && IsSimpleKey(poolGroup, itemName))
+                || (Config.IncludeFragileCharms && IsFragileCharm(poolGroup, itemName))
                 || (Config.IncludeKeyLikeCharms && IsKeyLikeCharm(poolGroup, itemName))
                 || (Config.IncludeStags && IsStag(poolGroup, itemName));
         }
@@ -126,6 +130,9 @@ namespace MajorItemByAreaTracker
             .Merge(ItemNames.Howling_Wraiths, ItemNames.Abyss_Shriek)
             .Merge(ItemNames.Dream_Nail, ItemNames.Dream_Gate, ItemNames.Awoken_Dream_Nail)
             .Merge(ItemNames.Dreamer, ItemNames.Lurien, ItemNames.Monomon, ItemNames.Herrah)
+            .Merge(ItemNames.Fragile_Heart, ItemNames.Unbreakable_Heart)
+            .Merge(ItemNames.Fragile_Strength, ItemNames.Unbreakable_Strength)
+            .Merge(ItemNames.Fragile_Greed, ItemNames.Unbreakable_Greed)
             .Merge("White Fragment", ItemNames.King_Fragment, ItemNames.Queen_Fragment, ItemNames.Void_Heart)
             .Merge("Nail Art", ItemNames.Great_Slash, ItemNames.Dash_Slash, ItemNames.Cyclone_Slash)
             .Merge("Grimmchild", ItemNames.Grimmchild1, ItemNames.Grimmchild2)
