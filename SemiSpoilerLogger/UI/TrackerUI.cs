@@ -19,6 +19,7 @@ namespace MajorItemByAreaTracker.UI
     {
         private LayoutRoot layout;
         private Dictionary<string, TextFormatter<int>> counterLookup = new();
+        private Dictionary<string, TextFormatter<int>?> optionalCounterLookup = new();
         private TrackerSettings model;
 
         private string TryLocalize(string area)
@@ -78,27 +79,42 @@ namespace MajorItemByAreaTracker.UI
 
             foreach (string area in MapArea.AllMapAreas)
             {
-                TextFormatter<int> counter = new(layout, 0, (i) => $"{TryLocalize(area)}: {i}")
-                {
-                    Text = new(layout)
-                    {
-                        FontSize = 15
-                    },
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                };
-                counterLookup[area] = counter;
-                grid.Children.Add(counter);
+                counterLookup[area] = CreateCounter(grid, area);
             }
+            optionalCounterLookup.Add(SubcategoryFinder.OTHER, null);
+        }
+
+        private TextFormatter<int> CreateCounter(DynamicUniformGrid? parent, string area)
+        {
+            TextFormatter<int> counter = new(layout, 0, (i) => $"{TryLocalize(area)}: {i}")
+            {
+                Text = new(layout)
+                {
+                    FontSize = 15
+                },
+                HorizontalAlignment = HorizontalAlignment.Center,
+            };
+            parent!.Children.Add(counter);
+            return counter;
         }
 
         public void Refresh()
         {
             int sum = 0;
-            foreach (string area in MapArea.AllMapAreas)
+            foreach (var pair in counterLookup)
             {
-                if (counterLookup.TryGetValue(area, out TextFormatter<int> counter)
-                    && model.ItemByAreaCounter.TryGetValue(area, out int count))
+                if (model.ItemByAreaCounter.TryGetValue(pair.Key, out int count))
                 {
+                    pair.Value.Data = count;
+                    sum += count;
+                }
+            }
+            foreach (string area in optionalCounterLookup.Keys)
+            {
+                if (model.ItemByAreaCounter.TryGetValue(area, out int count))
+                {
+                    TextFormatter<int> counter = optionalCounterLookup[area] 
+                        ??= CreateCounter(layout.GetElement<DynamicUniformGrid>("Area Tracker Grid"), area);
                     counter.Data = count;
                     sum += count;
                 }

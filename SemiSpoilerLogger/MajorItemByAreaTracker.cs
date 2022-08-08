@@ -71,7 +71,7 @@ namespace MajorItemByAreaTracker
             menuRef ??= new Menu("Major Item Tracker", new Element[]
             {
                 new HorizontalOption("Show UI",
-                    "Choose when to display the tracker UI while the connecion is enabled",
+                    "Choose when to display the tracker UI while the connection is enabled",
                     Enum.GetNames(typeof(UIDisplayType)),
                     (i) => GS.ShowUI = (UIDisplayType)i,
                     () => (int)GS.ShowUI),

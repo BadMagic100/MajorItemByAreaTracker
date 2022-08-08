@@ -149,7 +149,7 @@ namespace MajorItemByAreaTracker
             MajorItemByAreaTracker.Instance.Log($"Item {item.name} is eligible to count");
 
             string name = SupplementalMetadata.Of(item).Get(MajorItemName);
-            string area = item.RandoLocation()!.LocationDef?.MapArea ?? SubcategoryFinder.OTHER;
+            string area = item.RandoLocation()?.LocationDef?.MapArea ?? SubcategoryFinder.OTHER;
 
             if (!Config.ItemByAreaCounter.ContainsKey(area))
             {
@@ -173,7 +173,7 @@ namespace MajorItemByAreaTracker
             MajorItemByAreaTracker.Instance.Log($"Item {item.name} is eligible to count");
 
             string name = SupplementalMetadata.Of(item).Get(MajorItemName);
-            string area = item.RandoLocation()!.LocationDef?.MapArea ?? SubcategoryFinder.OTHER;
+            string area = item.RandoLocation()?.LocationDef?.MapArea ?? SubcategoryFinder.OTHER;
 
             if (Config.ItemByAreaCounter.ContainsKey(area))
             {
