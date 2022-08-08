@@ -98,7 +98,7 @@ namespace MajorItemByAreaTracker
             ItemNames.Fragile_Heart, ItemNames.Fragile_Strength, ItemNames.Fragile_Greed,
             ItemNames.Unbreakable_Heart, ItemNames.Unbreakable_Strength, ItemNames.Unbreakable_Greed);
 
-        private bool IsStag(string poolGroup, string itemName) => poolGroup.Equals(PoolGroup.Stags.FriendlyName());
+        private bool IsStag(string poolGroup, string itemName) => poolGroup == PoolGroup.Stags.FriendlyName();
 
         private bool GetIsMajorItemDefault(AbstractItem item)
         {
@@ -146,7 +146,7 @@ namespace MajorItemByAreaTracker
             {
                 return;
             }
-            MajorItemByAreaTracker.Instance.Log($"Item {item.name} is eligible to count");
+            MajorItemByAreaTracker.Instance.LogDebug($"Item {item.name} is eligible to count");
 
             string name = SupplementalMetadata.Of(item).Get(MajorItemName);
             string area = item.RandoLocation()?.LocationDef?.MapArea ?? SubcategoryFinder.OTHER;
@@ -170,7 +170,7 @@ namespace MajorItemByAreaTracker
             {
                 return;
             }
-            MajorItemByAreaTracker.Instance.Log($"Item {item.name} is eligible to count");
+            MajorItemByAreaTracker.Instance.LogDebug($"Item {item.name} is eligible to count");
 
             string name = SupplementalMetadata.Of(item).Get(MajorItemName);
             string area = item.RandoLocation()?.LocationDef?.MapArea ?? SubcategoryFinder.OTHER;
