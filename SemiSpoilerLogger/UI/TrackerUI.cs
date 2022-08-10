@@ -109,15 +109,24 @@ namespace MajorItemByAreaTracker.UI
                     sum += count;
                 }
             }
+            List<(string, TextFormatter<int>)> queuedChanges = new();
             foreach (string area in optionalCounterLookup.Keys)
             {
                 if (model.ItemByAreaCounter.TryGetValue(area, out int count))
                 {
-                    TextFormatter<int> counter = optionalCounterLookup[area] 
-                        ??= CreateCounter(layout.GetElement<DynamicUniformGrid>("Area Tracker Grid"), area);
+                    TextFormatter<int> counter = optionalCounterLookup[area]
+                        ?? CreateCounter(layout.GetElement<DynamicUniformGrid>("Area Tracker Grid"), area);
                     counter.Data = count;
                     sum += count;
+                    if (optionalCounterLookup[area] == null)
+                    {
+                        queuedChanges.Add((area, counter));
+                    }
                 }
+            }
+            foreach ((string area, TextFormatter<int> counter) in queuedChanges)
+            {
+                optionalCounterLookup[area] = counter;
             }
             SetLabelText(sum);
         }
