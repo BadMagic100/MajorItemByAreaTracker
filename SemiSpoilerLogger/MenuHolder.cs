@@ -34,6 +34,7 @@ namespace MajorItemByAreaTracker
         {
             jumpToTrackerButton = new SmallButton(landing, Localization.Localize("All Major Items"));
             jumpToTrackerButton.AddHideAndShowEvent(landing, trackerPage);
+            SetTopLevelButtonColor();
             btn = jumpToTrackerButton;
             return true;
         }
@@ -42,8 +43,23 @@ namespace MajorItemByAreaTracker
         {
             trackerPage = new MenuPage(Localization.Localize("All Major Items"), landing);
             mef = new MenuElementFactory<TrackerGlobalSettings>(trackerPage, MajorItemByAreaTracker.Instance.GS);
+            ToggleButton enabledControl = (ToggleButton)mef.ElementLookup[nameof(MajorItemByAreaTracker.Instance.GS.Enabled)];
+            enabledControl.SelfChanged += EnabledChanged;
             vip = new VerticalItemPanel(trackerPage, new(0, 300), 50f, true, mef.Elements);
             Localization.Localize(mef);
+        }
+
+        private void EnabledChanged(IValueElement obj)
+        {
+            SetTopLevelButtonColor();
+        }
+
+        private void SetTopLevelButtonColor()
+        {
+            if (jumpToTrackerButton != null)
+            {
+                jumpToTrackerButton.Text.color = MajorItemByAreaTracker.Instance.GS.Enabled ? Colors.TRUE_COLOR : Colors.DEFAULT_COLOR;
+            }
         }
     }
 }
