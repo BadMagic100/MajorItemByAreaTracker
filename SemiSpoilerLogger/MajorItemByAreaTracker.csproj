@@ -7,7 +7,7 @@
         <Product>MajorItemByAreaTracker</Product>
         <Description>A Hollow Knight mod that lists the counts of user-determined major items by map area</Description>
         <Copyright>Copyright © BadMagic 2022</Copyright>
-        <NoWarn>C7035</NoWarn>
+        <NoWarn>CS7035</NoWarn>
         <Deterministic>false</Deterministic>
         <AssemblyVersion>1.2.*</AssemblyVersion>
         <OutputPath>bin\$(Configuration)\</OutputPath>

@@ -1,5 +1,5 @@
 ﻿MagicUI
-ConnectionMetadataInjector from https://github.com/BadMagic100/ConnectionMetadataInjector/releases/download/v2.0.8233.2060/ConnectionMetadataInjector.zip
+ConnectionMetadataInjector
 Randomizer 4
 RandomizerCore
 ItemChanger
