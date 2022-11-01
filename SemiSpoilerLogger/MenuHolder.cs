@@ -33,7 +33,7 @@ namespace MajorItemByAreaTracker
         private bool HandleButton(MenuPage landing, out SmallButton btn)
         {
             jumpToTrackerButton = new SmallButton(landing, Localization.Localize("All Major Items"));
-            jumpToTrackerButton.AddHideAndShowEvent(landing, trackerPage);
+            jumpToTrackerButton.AddHideAndShowEvent(landing, trackerPage!);
             SetTopLevelButtonColor();
             btn = jumpToTrackerButton;
             return true;
@@ -60,6 +60,17 @@ namespace MajorItemByAreaTracker
             {
                 jumpToTrackerButton.Text.color = MajorItemByAreaTracker.Instance.GS.Enabled ? Colors.TRUE_COLOR : Colors.DEFAULT_COLOR;
             }
+        }
+
+        public void Disable()
+        {
+            IValueElement? elem = mef?.ElementLookup[nameof(TrackerGlobalSettings.Enabled)];
+            elem?.SetValue(false);
+        }
+
+        public void ApplySettingsToMenu(TrackerGlobalSettings settings)
+        {
+            mef?.SetMenuValues(settings);
         }
     }
 }

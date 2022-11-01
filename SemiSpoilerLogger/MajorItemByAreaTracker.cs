@@ -44,6 +44,10 @@ namespace MajorItemByAreaTracker
             RandoController.OnCalculateHash += HashModifier.AdjustHash;
 
             MenuHolder.Hook();
+            if (ModHooks.GetMod("RandoSettingsManager") is Mod)
+            {
+                SettingsManagement.Hook();
+            }
 
             Log("Initialized");
         }
