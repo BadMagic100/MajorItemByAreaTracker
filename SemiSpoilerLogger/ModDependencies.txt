@@ -5,4 +5,4 @@ RandomizerCore
 ItemChanger
 MenuChanger
 Satchel
-RandoSettingsManager
+RandoSettingsManager from https://github.com/BadMagic100/RandoSettingsManager/releases/download/v1.0.8340.1637/RandoSettingsManager.zip

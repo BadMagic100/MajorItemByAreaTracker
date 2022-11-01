@@ -9,7 +9,7 @@
     <Copyright>Copyright © BadMagic 2022</Copyright>
     <NoWarn>CS7035</NoWarn>
     <Deterministic>false</Deterministic>
-    <AssemblyVersion>1.2.*</AssemblyVersion>
+    <AssemblyVersion>1.3.*</AssemblyVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
