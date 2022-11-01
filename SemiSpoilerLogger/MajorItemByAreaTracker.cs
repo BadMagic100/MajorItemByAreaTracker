@@ -2,6 +2,8 @@
 using MajorItemByAreaTracker.Settings;
 using MajorItemByAreaTracker.UI;
 using Modding;
+using Newtonsoft.Json;
+using RandomizerMod.Logging;
 using RandomizerMod.RC;
 using Satchel.BetterMenus;
 using System;
@@ -42,6 +44,7 @@ namespace MajorItemByAreaTracker
 
             RandoController.OnExportCompleted += OnRandoGameStart;
             RandoController.OnCalculateHash += HashModifier.AdjustHash;
+            SettingsLog.AfterLogSettings += AddAllMajorsSettings;
 
             MenuHolder.Hook();
             if (ModHooks.GetMod("RandoSettingsManager") is Mod)
@@ -64,6 +67,14 @@ namespace MajorItemByAreaTracker
                 MajorItemTrackerModule tracker = ItemChangerMod.Modules.GetOrAdd<MajorItemTrackerModule>();
                 tracker.PrepareFirstTimeConfig();
             }
+        }
+
+        private void AddAllMajorsSettings(LogArguments args, System.IO.TextWriter tw)
+        {
+            tw.WriteLine("All Majors Settings:");
+            using JsonTextWriter jtw = new(tw) { CloseOutput = false };
+            RandomizerMod.RandomizerData.JsonUtil._js.Serialize(jtw, GS);
+            tw.WriteLine();
         }
 
         public void OnLoadGlobal(TrackerGlobalSettings s) => GS = s;
