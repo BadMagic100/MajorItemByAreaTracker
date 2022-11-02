@@ -1,7 +1,6 @@
 ﻿using RandoSettingsManager;
 using RandoSettingsManager.SettingsManagement;
 using RandoSettingsManager.SettingsManagement.Versioning;
-using RandoSettingsManager.SettingsManagement.Versioning.Comparators;
 
 namespace MajorItemByAreaTracker.Settings
 {
@@ -18,7 +17,7 @@ namespace MajorItemByAreaTracker.Settings
         public override string ModKey => MajorItemByAreaTracker.Instance.GetName();
 
         public override VersioningPolicy<string> VersioningPolicy { get; }
-            = new BackwardCompatiblityVersioningPolicy<string>("1.2", new SemVerComparator());
+            = new StrictModVersioningPolicy(MajorItemByAreaTracker.Instance);
 
         public override void ReceiveSettings(TrackerGlobalSettings? settings)
         {
