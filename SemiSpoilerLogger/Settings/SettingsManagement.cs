@@ -23,11 +23,11 @@ namespace MajorItemByAreaTracker.Settings
         {
             if (settings != null)
             {
-                MenuHolder.Instance.ApplySettingsToMenu(settings);
+                MenuHolder.Instance!.ApplySettingsToMenu(settings);
             }
             else
             {
-                MenuHolder.Instance.Disable();
+                MenuHolder.Instance!.Disable();
             }
         }
 
