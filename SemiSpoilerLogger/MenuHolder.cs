@@ -10,43 +10,43 @@ namespace MajorItemByAreaTracker
 {
     public class MenuHolder
     {
-        internal MenuPage? trackerPage;
-        internal MenuElementFactory<TrackerGlobalSettings>? mef;
-        internal VerticalItemPanel? vip;
+        private MenuPage trackerPage;
+        private MenuElementFactory<TrackerGlobalSettings> mef;
+        private VerticalItemPanel vip;
 
-        internal SmallButton? jumpToTrackerButton;
+        private SmallButton jumpToTrackerButton;
 
-        private static MenuHolder? instance = null;
-        internal static MenuHolder Instance => instance ??= new();
-
-        private static void OnExitMenu()
-        {
-            instance = null;
-        }
+        internal static MenuHolder? Instance { get; private set; }
 
         public static void Hook()
         {
-            RandomizerMenuAPI.AddMenuPage(Instance.Construct, Instance.HandleButton);
-            MenuChangerMod.OnExitMainMenu += OnExitMenu;
+            RandomizerMenuAPI.AddMenuPage(Construct, HandleButton);
+            MenuChangerMod.OnExitMainMenu += () => Instance = null;
         }
 
-        private bool HandleButton(MenuPage landing, out SmallButton btn)
+        private static bool HandleButton(MenuPage connectionPage, out SmallButton btn)
         {
-            jumpToTrackerButton = new SmallButton(landing, Localization.Localize("All Major Items"));
-            jumpToTrackerButton.AddHideAndShowEvent(landing, trackerPage!);
-            SetTopLevelButtonColor();
-            btn = jumpToTrackerButton;
+            btn = Instance!.jumpToTrackerButton;
             return true;
         }
 
-        private void Construct(MenuPage landing)
+        private static void Construct(MenuPage connectionPage)
         {
-            trackerPage = new MenuPage(Localization.Localize("All Major Items"), landing);
+            Instance = new(connectionPage);
+        }
+
+        private MenuHolder(MenuPage connectionPage)
+        {
+            trackerPage = new MenuPage(Localization.Localize("All Major Items"), connectionPage);
             mef = new MenuElementFactory<TrackerGlobalSettings>(trackerPage, MajorItemByAreaTracker.Instance.GS);
             ToggleButton enabledControl = (ToggleButton)mef.ElementLookup[nameof(MajorItemByAreaTracker.Instance.GS.Enabled)];
             enabledControl.SelfChanged += EnabledChanged;
             vip = new VerticalItemPanel(trackerPage, new(0, 300), 50f, true, mef.Elements);
             Localization.Localize(mef);
+
+            jumpToTrackerButton = new SmallButton(connectionPage, Localization.Localize("All Major Items"));
+            jumpToTrackerButton.AddHideAndShowEvent(connectionPage, trackerPage!);
+            SetTopLevelButtonColor();
         }
 
         private void EnabledChanged(IValueElement obj)
@@ -56,21 +56,18 @@ namespace MajorItemByAreaTracker
 
         private void SetTopLevelButtonColor()
         {
-            if (jumpToTrackerButton != null)
-            {
-                jumpToTrackerButton.Text.color = MajorItemByAreaTracker.Instance.GS.Enabled ? Colors.TRUE_COLOR : Colors.DEFAULT_COLOR;
-            }
+            jumpToTrackerButton.Text.color = MajorItemByAreaTracker.Instance.GS.Enabled ? Colors.TRUE_COLOR : Colors.DEFAULT_COLOR;
         }
 
         public void Disable()
         {
-            IValueElement? elem = mef?.ElementLookup[nameof(TrackerGlobalSettings.Enabled)];
-            elem?.SetValue(false);
+            IValueElement elem = mef.ElementLookup[nameof(TrackerGlobalSettings.Enabled)];
+            elem.SetValue(false);
         }
 
         public void ApplySettingsToMenu(TrackerGlobalSettings settings)
         {
-            mef?.SetMenuValues(settings);
+            mef.SetMenuValues(settings);
         }
     }
 }
