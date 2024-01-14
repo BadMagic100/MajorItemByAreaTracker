@@ -91,6 +91,8 @@ namespace MajorItemByAreaTracker
         private bool IsWhiteFragment(string poolGroup, string itemName) => poolGroup == PoolGroup.Charms.FriendlyName()
             && itemName.IsOneOf(ItemNames.Queen_Fragment, ItemNames.King_Fragment, ItemNames.Void_Heart);
 
+        private bool IsGrub(string poolGroup, string itemName) => itemName == ItemNames.Grub;
+
         private bool IsKeyLikeCharm(string poolGroup, string itemName) => itemName.IsOneOf(ItemNames.Defenders_Crest, ItemNames.Spore_Shroom,
             ItemNames.Grimmchild1, ItemNames.Grimmchild2);
 
@@ -111,9 +113,10 @@ namespace MajorItemByAreaTracker
             string itemName = item.RandoItem()!.Name;
             SupplementalMetadata<AbstractItem> itemMeta = SupplementalMetadata.Of(item);
             string poolGroup = itemMeta.Get(InjectedProps.ItemPoolGroup);
-            return IsSkill(poolGroup, itemName)
-                || IsDreamer(poolGroup, itemName)
-                || IsWhiteFragment(poolGroup, itemName)
+            return (Config.IncludeSkills && IsSkill(poolGroup, itemName))
+                || (Config.IncludeDreamers && IsDreamer(poolGroup, itemName))
+                || (Config.IncludeWhiteFragments && IsWhiteFragment(poolGroup, itemName))
+                || (Config.IncludeGrubs && IsGrub(poolGroup, itemName))
                 || (Config.IncludeUniqueKeys && IsUniqueKey(poolGroup, itemName))
                 || (Config.IncludeSimpleKeys && IsSimpleKey(poolGroup, itemName))
                 || (Config.IncludeFragileCharms && IsFragileCharm(poolGroup, itemName))

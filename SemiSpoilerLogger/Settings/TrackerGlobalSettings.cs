@@ -8,6 +8,14 @@ namespace MajorItemByAreaTracker.Settings
     {
         public bool Enabled { get; set; } = false;
 
+        public bool IncludeSkills { get; set; } = true;
+
+        public bool IncludeDreamers { get; set; } = true;
+
+        public bool IncludeWhiteFragments { get; set; } = true;
+
+        public bool IncludeGrubs { get; set; } = false;
+
         public bool IncludeUniqueKeys { get; set; } = false;
 
         public bool IncludeSimpleKeys { get; set; } = false;
@@ -27,6 +35,10 @@ namespace MajorItemByAreaTracker.Settings
         {
             return new()
             {
+                IncludeSkills = IncludeSkills,
+                IncludeDreamers = IncludeDreamers,
+                IncludeWhiteFragments = IncludeWhiteFragments,
+                IncludeGrubs = IncludeGrubs,
                 IncludeUniqueKeys = IncludeUniqueKeys,
                 IncludeSimpleKeys = IncludeSimpleKeys,
                 IncludeKeyLikeCharms = IncludeKeyLikeCharms,
