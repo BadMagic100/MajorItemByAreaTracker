@@ -16,8 +16,12 @@ In the mod menu, you can control when the UI is visible - always, while the game
 
 In the "All Major Items" connection submenu, you can configure the settings for a new rando save. If enabled, this will affect the hash, 
 so you can verify your settings are the same as everyone else you're playing with - using this mod is preferred for races rather than
-using HKSpoilerViewer. To play with default settings, you only need to enable the connection. Optionally, you can include unique keys 
+using HKSpoilerViewer.
+
+To play with default settings, you only need to enable the connection. Optionally, you can include grubs, unique keys 
 (e.g. Love Key and Elegant Key), key-like charms (Defender's Crest, Spore Shroom, and Grimmchild), and/or charm notches to add additional items to the tracker/objective as desired.
+You can also exclude skills, Dreamers and White Fragments, which are
+enabled by default.
 
 ## Custom Item Support
 
