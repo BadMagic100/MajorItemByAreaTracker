@@ -31,6 +31,10 @@ namespace MajorItemByAreaTracker.Settings
         [HashModifier.HashIgnore]
         public UIDisplayType ShowUI { get; set; } = UIDisplayType.Always;
 
+        [MenuIgnore]
+        [HashModifier.HashIgnore]
+        public bool CuteSpelling { get; set; } = false;
+
         public TrackerSettings ToTrackerSettings()
         {
             return new()
