@@ -4,6 +4,7 @@ using MagicUI.Elements;
 using MajorItemByAreaTracker.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using ItemChanger;
 using RandomizerMod;
 using System.Collections.Generic;
 
@@ -136,7 +137,9 @@ namespace MajorItemByAreaTracker.UI
             TextObject? label = layout?.GetElement<TextObject>("Area Tracker Label");
             if (label != null)
             {
-                label.Text = $"Major Items Remaining ({total})";
+                bool grubsOnly = model.ItemByNameCounter.Count == 1 && model.ItemByNameCounter.ContainsKey(ItemNames.Grub);
+                string mainLabel = grubsOnly ? "Grubs" : "Major Items";
+                label.Text = $"{mainLabel} Remaining ({total})";
             }
         }
 
