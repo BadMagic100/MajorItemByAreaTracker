@@ -137,11 +137,11 @@ namespace MajorItemByAreaTracker.UI
             TextObject? label = layout?.GetElement<TextObject>("Area Tracker Label");
             if (label != null)
             {
-                label.Text = $"{MainLabel()} Remaining ({total})";
+                label.Text = $"{GetMainLabel()} Remaining ({total})";
             }
         }
 
-        private string MainLabel()
+        private string GetMainLabel()
         {
             bool grubsOnly = model.ItemByNameCounter.Count == 1 && model.ItemByNameCounter.ContainsKey(ItemNames.Grub);
             if (!grubsOnly)
