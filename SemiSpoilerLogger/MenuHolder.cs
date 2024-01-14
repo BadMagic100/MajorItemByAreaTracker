@@ -42,6 +42,7 @@ namespace MajorItemByAreaTracker
             ToggleButton enabledControl = (ToggleButton)mef.ElementLookup[nameof(MajorItemByAreaTracker.Instance.GS.Enabled)];
             enabledControl.SelfChanged += EnabledChanged;
             vip = new VerticalItemPanel(trackerPage, new(0, 300), 50f, true, mef.Elements);
+            AddCuteSpellingToggle((ToggleButton)mef.ElementLookup[nameof(MajorItemByAreaTracker.Instance.GS.IncludeGrubs)]);
             Localization.Localize(mef);
 
             jumpToTrackerButton = new SmallButton(connectionPage, Localization.Localize("All Major Items"));
@@ -68,6 +69,56 @@ namespace MajorItemByAreaTracker
         public void ApplySettingsToMenu(TrackerGlobalSettings settings)
         {
             mef.SetMenuValues(settings);
+        }
+
+        private void AddCuteSpellingToggle(ToggleButton button)
+        {
+            const int ClicksToToggle = 7;
+            const float ConsecutiveClickInterval = .5f;
+
+            // This should happen before the localization formatter is
+            // installed.
+            button.Formatter = new CuteSpellingFormatter(button.Formatter);
+            
+            int numConsecutiveClicks = 0;
+            float timeOfLastClick = float.NegativeInfinity;
+            button.OnClick += () =>
+            {
+                float now = UnityEngine.Time.time;
+                if (now - timeOfLastClick > ConsecutiveClickInterval)
+                {
+                    numConsecutiveClicks = 0;
+                }
+                timeOfLastClick = now;
+                numConsecutiveClicks++;
+                if (numConsecutiveClicks == ClicksToToggle)
+                {
+                    MajorItemByAreaTracker.Instance.GS.CuteSpelling = !MajorItemByAreaTracker.Instance.GS.CuteSpelling;
+                    // Trigger a text refresh, which will cause the
+                    // CuteSpellingFormatter to return a new string.
+                    button.Formatter = button.Formatter;
+                    numConsecutiveClicks = 0;
+                }
+            };
+        }
+    }
+
+    internal class CuteSpellingFormatter : MenuItemFormatter
+    {
+        private MenuItemFormatter orig;
+
+        public CuteSpellingFormatter(MenuItemFormatter orig)
+        {
+            this.orig = orig;
+        }
+
+        public override string GetText(string prefix, object value)
+        {
+            if (MajorItemByAreaTracker.Instance.GS.CuteSpelling)
+            {
+                return "Include Grubbies";
+            }
+            return orig.GetText(prefix, value);
         }
     }
 }

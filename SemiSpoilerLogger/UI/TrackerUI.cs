@@ -137,10 +137,22 @@ namespace MajorItemByAreaTracker.UI
             TextObject? label = layout?.GetElement<TextObject>("Area Tracker Label");
             if (label != null)
             {
-                bool grubsOnly = model.ItemByNameCounter.Count == 1 && model.ItemByNameCounter.ContainsKey(ItemNames.Grub);
-                string mainLabel = grubsOnly ? "Grubs" : "Major Items";
-                label.Text = $"{mainLabel} Remaining ({total})";
+                label.Text = $"{MainLabel()} Remaining ({total})";
             }
+        }
+
+        private string MainLabel()
+        {
+            bool grubsOnly = model.ItemByNameCounter.Count == 1 && model.ItemByNameCounter.ContainsKey(ItemNames.Grub);
+            if (!grubsOnly)
+            {
+                return "Major Items";
+            }
+            if (MajorItemByAreaTracker.Instance.GS.CuteSpelling)
+            {
+                return "Grubbies";
+            }
+            return "Grubs";
         }
 
         public void Destroy()
