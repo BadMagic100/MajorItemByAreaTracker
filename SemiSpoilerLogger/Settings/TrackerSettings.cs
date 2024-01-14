@@ -12,8 +12,6 @@ namespace MajorItemByAreaTracker.Settings
 
         public bool IncludeWhiteFragments { get; set; } = true;
 
-        public bool IncludeGrubs { get; set; } = false;
-
         public bool IncludeUniqueKeys { get; set; } = false;
 
         public bool IncludeSimpleKeys { get; set; } = false;
@@ -23,6 +21,8 @@ namespace MajorItemByAreaTracker.Settings
         public bool IncludeFragileCharms { get; set; } = false;
 
         public bool IncludeStags { get; set; } = false;
+
+        public bool IncludeGrubs { get; set; } = false;
 
         public Dictionary<string, int> ItemByNameCounter { get; set; } = new();
 

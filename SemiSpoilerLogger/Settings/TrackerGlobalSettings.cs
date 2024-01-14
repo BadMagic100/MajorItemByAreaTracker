@@ -14,8 +14,6 @@ namespace MajorItemByAreaTracker.Settings
 
         public bool IncludeWhiteFragments { get; set; } = true;
 
-        public bool IncludeGrubs { get; set; } = false;
-
         public bool IncludeUniqueKeys { get; set; } = false;
 
         public bool IncludeSimpleKeys { get; set; } = false;
@@ -26,6 +24,8 @@ namespace MajorItemByAreaTracker.Settings
         public bool IncludeFragileCharms { get; set; } = false;
 
         public bool IncludeStags { get; set; } = false;
+
+        public bool IncludeGrubs { get; set; } = false;
 
         [MenuIgnore]
         [HashModifier.HashIgnore]
@@ -42,12 +42,12 @@ namespace MajorItemByAreaTracker.Settings
                 IncludeSkills = IncludeSkills,
                 IncludeDreamers = IncludeDreamers,
                 IncludeWhiteFragments = IncludeWhiteFragments,
-                IncludeGrubs = IncludeGrubs,
                 IncludeUniqueKeys = IncludeUniqueKeys,
                 IncludeSimpleKeys = IncludeSimpleKeys,
                 IncludeKeyLikeCharms = IncludeKeyLikeCharms,
                 IncludeFragileCharms = IncludeFragileCharms,
                 IncludeStags = IncludeStags,
+                IncludeGrubs = IncludeGrubs,
             };
         }
     }
